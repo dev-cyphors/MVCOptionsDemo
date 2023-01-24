@@ -18,11 +18,11 @@ steps:
 
 - task: NuGetToolInstaller@1
 
-- powershell: |
-    $ProgressPreference = 'SilentlyContinue'
-    Write-Host "::::::::::::::::::::::Downloading .Net Framework v4.5:::::::::::::::::::::::"
-    Invoke-WebRequest -Uri "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net452-developer-pack-offline-installer" -OutFile "$env:TEMP\dotnet-sdk-4.5.2-win-x64.exe"
-    Start-Process "$env:TEMP\dotnet-sdk-4.5.2-win-x64.exe" -ArgumentList '/quiet', '/norestart' -Wait
+# - powershell: |
+#     $ProgressPreference = 'SilentlyContinue'
+#     Write-Host "::::::::::::::::::::::Downloading .Net Framework v4.5:::::::::::::::::::::::"
+#     Invoke-WebRequest -Uri "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net452-developer-pack-offline-installer" -OutFile "$env:TEMP\dotnet-sdk-4.5.2-win-x64.exe"
+#     Start-Process "$env:TEMP\dotnet-sdk-4.5.2-win-x64.exe" -ArgumentList '/quiet', '/norestart' -Wait
 #    Remove-Item "$env:TEMP\dotnet-sdk-4.5.2-win-x64.exe"
 # - task: NuGetCommand@2
 #   inputs:
@@ -32,6 +32,11 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'custom'
+    arguments: 'install Microsoft.NETFramework.ReferenceAssemblies.net45 -version 4.5.2'
 
 - task: VSBuild@1
   inputs:
