@@ -19,12 +19,18 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
-- task: DotNetCoreCLI@2
+- task: replacetokens@3
   inputs:
-    command: 'custom'
-    projects: '**/*.csproj'
-    custom: 'update'
-    arguments: '-r $(targetFramework)'
+    targetFiles: '**/*.csproj'
+    tokenRegex: "<TargetFramework>.*</TargetFramework>"
+    replacementText: "<TargetFramework>$(targetFramework)</TargetFramework>"
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'custom'
+#     projects: '**/*.csproj'
+#     custom: 'update'
+#     arguments: '-r $(targetFramework)'
 
 - task: NuGetCommand@2
   inputs:
